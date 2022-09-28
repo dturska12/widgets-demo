@@ -1,41 +1,70 @@
-# Swap Widget demo
+This is a [Create React App](https://create-react-app.dev/) project bootstrapped with [`create-react-app`](https://create-react-app.dev/docs/getting-started) to showcase how to integrate the @uniswap/widgets package in your own projects. It uses react-scripts@5.0.0.
 
-The Uniswap Labs [Swap Widget](https://docs.uniswap.org/sdk/widgets/swap-widget) bundles the whole Uniswap experience into a single React component that you can easily embed in your web app with one line of code.
-
-This repo is a simple example of how to import the [@uniswap/widgets](https://www.npmjs.com/package/@uniswap/widgets) npm package and embed the Swap Widget in a web app using either [Next.js](https://nextjs.org/) or the [create-react-app](https://create-react-app.dev/) framework.
+## widgets-cra5
 
 ![Uniswap Widgets](uniswap-widgets.png)
 
-## Getting started
+---
 
-This example project is available in both the Next.js framework and the create-react-app framework. The implementations differ slightly, so this repo includes a branch for each.
+To start the demo:
 
-### Getting started with Next.js
+```bash
+yarn          # install dependencies
+yarn start    # run the development server
+# or
+npm           # install dependencies
+npm run start # run the development server
+```
 
-1. Switch to the [Next.js branch](../../tree/nextjs) by running `git switch nextjs`
+Navigate to [http://localhost:3000](http://localhost:3000) to see the widget.
 
-1. If this is your first time using this branch, run `yarn install`
+---
 
-1. Run the app with `yarn dev`
+The `SwapWidget` component is passed everything it needs to render:
 
-### Getting started with create-react-app
+- `jsonRpcEndpoint`: a JSON-RPC endpoint, or an `@ethersproject` `JsonRpcProvider`; in this case "https://cloudflare-eth.com"
+- `tokenList`: a TokenList; in this case "https://gateway.ipfs.io/ipns/tokens.uniswap.org"
+- `provider`: an EIP1193 Provider, or an `@ethersproject` `JsonRpcProvider`; in this case from `connectors.ts`
 
-1. Switch to the [create-react-app branch](../../tree/cra) by running `git switch cra`
+In addition, it is passed these optional props to flesh out the demo:
 
-1. If this is your first time using this branch, run `yarn install`
+- `locale`: the locale in which to render, in this case "en-US"
+- `onConnectWallet`: a callback to invoke when a user clicks "Connect your wallet"
+- `defaultInputTokenAddress`: the default input token address, or "NATIVE" for Ether
+- `defaultInputAmount`: the default input token amount
+- `defaultOutputTokenAddress`: the default output token amount, in this case the address of the Uniswap (UNI) token
 
-1. Run the app with `yarn start`
+For all available props (including theming), refer to the documentation at https://docs.uniswap.org/sdk/widgets/swap-widget.
 
-## Additional documentation
+### Passing a provider
 
-- [Swap Widget Docs](https://docs.uniswap.org/sdk/widgets/swap-widget):
-  Learn how to integrate, customize, and style the Swap Widget.
+This project uses [@web3-react](https://github.com/NoahZinsmeister/web3-react) to connect to an Ethereum Provider. The demo uses both MetaMask and WalletConnect. See `src/components/Web3Connectors.tsx`.
 
-- [Discord](https://discord.gg/ybKVQUWb4s):
-  Ask questions in the #widgets channel for support.
+The `SwapWidget` component will accept any EIP1193 Provider or `@ethersproject` `JsonRpcProvider`, so you are not limited to using `@web3-react`. If you _do_ use a `JsonRpcProvider`, you can pass it in the same way, to the widget's `provider` prop.
 
-- [GitHub](https://github.com/Uniswap/interface/blob/main/src/lib/index.tsx):
-  Read the Swap Widget's source code.
+### Localization
 
-- [What is Uniswap](https://docs.uniwap.org/):
+The `SwapWidget` component will render in whichever supported locale is passed to the `locale` prop. The demo uses en-US, but includes a selector to demonstrate additional locales.
+
+### Known issues with Create React App
+
+- Many dependencies have not updated to support sourcemaps for CRA. To get around this, you can disable sourcemaps by setting GENERATE_SOURCEMAP=false, either when you run the script or in your .env file.
+
+- CRAv4 must use different import path for fonts. To import the widget using CRAv4:
+
+      import { SwapWidget } from '@uniswap/widgets/index.js'
+      import '@uniswap/widgets/dist/fonts.css'
+
+### Additional documentation
+
+- [What is Uniswap](https://docs.uniwap.org/)
   Learn about the Uniswap Protocol and available SDKs.
+
+- [Swap Widget Docs](https://docs.uniswap.org/sdk/widgets/swap-widget)
+  Explore the Swap Widget's features and API.
+
+- [Discord](https://discord.gg/ybKVQUWb4s)
+  Hop into #widgets for realtime help.
+
+- [GitHub](https://github.com/Uniswap/interface/blob/main/src/lib/index.tsx)
+  View the Swap Widget's source.
