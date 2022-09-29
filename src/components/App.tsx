@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
 import { FiGlobe } from 'react-icons/fi'
-import { SupportedLocale, SUPPORTED_LOCALES, SwapWidget } from '@uniswap/widgets'
+import { SupportedLocale, SUPPORTED_LOCALES, SwapWidget, darkTheme, lightTheme } from '@uniswap/widgets'
 
 // ↓↓↓ Don't forget to import the widgets' fonts! ↓↓↓
 import '@uniswap/widgets/fonts.css'
@@ -8,14 +8,14 @@ import '@uniswap/widgets/fonts.css'
 
 import { useActiveProvider } from '../connectors'
 import { JSON_RPC_URL } from '../constants'
-import DocumentationCards from './DocumentationCards'
 import Web3Connectors from './Web3Connectors'
 import styles from '../styles/Home.module.css'
-import { TOKEN_LIST } from '../constants'
 
-const UNI = '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984'
+const TOKEN_LIST = 'https://kroniclabz.mypinata.cloud/ipfs/QmVZZu2kBFDiFKqtG81uHeegfqBBdkddjbGEjAzcaDXGQa'
+const RICH = '0x5aAEf4659c683D2B00Ef86aa70c6Ab2E5A00BCc7'
 
-export default function App() {
+
+export default function App(): JSX.Element {
   // When a user clicks "Connect your wallet" in the SwapWidget, this callback focuses the connectors.
   const connectors = useRef<HTMLDivElement>(null)
   const focusConnectors = useCallback(() => connectors.current?.focus(), [])
@@ -28,6 +28,8 @@ export default function App() {
   // This is a value from the SUPPORTED_LOCALES exported by @uniswap/widgets.
   const [locale, setLocale] = useState<SupportedLocale>('en-US')
   const onSelectLocale = useCallback((e) => setLocale(e.target.value), [])
+
+  let darkMode = true // Dynamically toggle dark mode on and off
 
   return (
     <div className={styles.container}>
@@ -45,7 +47,7 @@ export default function App() {
       </div>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>IonSwap</h1>
+        <h1 className={styles.title}>Ionswap</h1>
 
         <div className={styles.demo}>
           <div className={styles.connectors} ref={connectors} tabIndex={-1}>
@@ -59,14 +61,13 @@ export default function App() {
               provider={provider}
               locale={locale}
               onConnectWallet={focusConnectors}
+              theme={darkMode ? darkTheme : lightTheme}
               defaultInputTokenAddress="NATIVE"
               defaultInputAmount="1"
-              defaultOutputTokenAddress={UNI}
+              defaultOutputTokenAddress={RICH}
             />
           </div>
         </div>
-
-        <hr className={styles.rule} />
       </main>
     </div>
   )

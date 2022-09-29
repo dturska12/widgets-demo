@@ -37,3 +37,15 @@ export const TOKEN_LIST = [
             'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png',
     },
 ];
+export const THEME = {
+    primary: '#FFF',
+    secondary: '#000000',
+    interactive: '#CBD6BA',
+    container: '#D9ECD9',
+    module: '#E9F7DF',
+    accent: '#8E8B78',
+    outline: '#CADDC2',
+    dialog: '#FFF',
+    fontFamily: 'Nunito',
+    borderRadius: 0.8,
+}
